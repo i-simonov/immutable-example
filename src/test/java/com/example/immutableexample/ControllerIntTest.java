@@ -1,7 +1,7 @@
 package com.example.immutableexample;
 
 import com.example.immutableexample.model.Car;
-import com.example.immutableexample.service.CarRepo;
+import com.example.immutableexample.service.CarRepository;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class ControllerIntTest {
     MockMvc mockMvc;
 
     @Autowired
-    CarRepo carRepo;
+    CarRepository carRepository;
 
     @Test
     public void getCarsTest() throws Exception {
@@ -31,12 +31,12 @@ public class ControllerIntTest {
         String number = "a007";
         String param = "?VIN=111&number=a007";
 
-        carRepo.clearCars();
-        carRepo.addCar(new Car(number, VIN, null));
+        carRepository.clearCars();
+        carRepository.addCar(new Car(number, VIN, null));
 
         mockMvc.perform(get("http://localhost:8080/api/v1/cars" + param))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString(carRepo.getCars().toString())));
+                .andExpect(content().string(containsString(carRepository.getCars().toString())));
 
     }
 
@@ -47,8 +47,8 @@ public class ControllerIntTest {
         String number = "a009";
         String param = "?VIN=111&number=a007";
 
-        carRepo.clearCars();
-        carRepo.addCar(new Car(number, VIN, null));
+        carRepository.clearCars();
+        carRepository.addCar(new Car(number, VIN, null));
 
         mockMvc.perform(get("http://localhost:8080/api/v1/cars" + param))
                 .andExpect(status().isNotFound());
